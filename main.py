@@ -66,9 +66,11 @@ frame_menu = ctk.CTkFrame(app)
 frame_tag = ctk.CTkFrame(app)
 frame_info = ctk.CTkFrame(frame_tag)
 
+
 # -- Boutons -- #
 bouton_ouvrir_fichier = ctk.CTkButton(frame_menu)
 bouton_cherche_information = ctk.CTkButton(frame_menu)
+bouton_enregistre_tag = ctk.CTkButton(frame_menu)
 
 # -- Zone de saisie -- #
 saisie_nom_fichier = ctk.CTkEntry(frame_menu)
@@ -142,6 +144,8 @@ def action_bouton_charge_donnee_tvdb():
 
     actualisation_tag_serie(0)
 
+def action_bouton_enregistre():
+    video_tag.save_video_tag(f"{folder}/{file}", my_video_tag)
 
 def action_liste_serie(_):
     global active_id_serie, index_list_episode
@@ -311,6 +315,8 @@ def initialisation_app():
         bouton=bouton_ouvrir_fichier, text="ouvir", column=0, command=action_bouton_ouvre_fichier)
     my_app_init.initialisation_bouton(
         bouton_cherche_information, text="tag", column=2, command=action_bouton_charge_donnee_tvdb)
+    my_app_init.initialisation_bouton(bouton_enregistre_tag, text="Enregistrer", column=0,row=1, command=action_bouton_enregistre)
+    
     my_app_init.initialisation_zone_saisie(saisie_nom_fichier)
 
     my_app_init.initialisation_liste_deroulante(

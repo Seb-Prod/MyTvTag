@@ -1,5 +1,6 @@
 import base64
 from dataclasses import dataclass
+import subprocess
 from mutagen.mp4 import MP4
 
 @dataclass
@@ -105,3 +106,45 @@ def get_image(video: MP4):
             return None
     except KeyError:
         return None
+
+
+def save_video_tag(file:str, tag: tag):
+    fichier_mp4 =file
+    video = MP4(fichier_mp4)
+    print(tag)
+    # Ajouter ou modifier des métadonnées
+    video['©nam'] = tag.name
+    video['\xa9ART'] = tag.artist
+    video['aART'] = tag.artist
+    video['\xa9alb'] = f"{tag.artist}, Season {tag.tv_season}"
+    video['\xa9gen'] = tag.genre
+    video['\xa9day'] = tag.year
+    #video['trkn'] = 1, 0
+    video['tvsh'] = tag.artist
+    video['tvnn'] = ""
+    video['tven'] = "101"
+    video['tvsn'] = str(tag.tv_season)
+    video['tves'] = str(tag.tv_episode)
+    video['desc'] = tag.description
+    video['ldes'] = tag.long_description
+    video['sdes'] = tag.tv_description
+    video['stik'] = [10]
+
+    # Enregistrer les modifications
+    video.save()
+    print("Les métadonnées ont été mises à jour avec succès !")
+    ajouter_serie_a_itunes(file)
+
+def ajouter_serie_a_itunes(file:str):
+    script = f'''
+    tell application "TV"
+        add POSIX file "{file}" to library playlist 1
+    end tell
+    '''
+    try:
+        subprocess.run(["osascript", "-e", script], check=True)
+        print(f"La série TV {file} a été ajoutée à iTunes avec succès.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors de l'ajout à iTunes : {e}")
+
+# Ajouter le fichier

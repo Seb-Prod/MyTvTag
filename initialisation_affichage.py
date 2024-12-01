@@ -35,9 +35,9 @@ def initialisation_frame_info(frame: ctk.CTkFrame):
     frame.configure(width=600, fg_color=couleur_fond)
     frame.grid(row=1, columnspan=5)
 
-def initialisation_bouton(bouton: ctk.CTkButton, text: str, column: int, command):
+def initialisation_bouton(bouton: ctk.CTkButton, text: str, column: int, command, row:int=0):
     bouton.configure(text=text, command=command)
-    bouton.grid(row=0, column=column, padx=5, pady=5)
+    bouton.grid(row=row, column=column, padx=5, pady=5)
 
 def initialisation_zone_saisie(entry: ctk.CTkEntry):
     entry.configure(placeholder_text="Ouvir une video")
