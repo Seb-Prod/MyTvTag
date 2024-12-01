@@ -3,7 +3,8 @@ from dataclasses import dataclass
 from tvdb_v4_official import TVDB
 import re
 import time
-
+from dotenv import load_dotenv
+import os
 @dataclass
 class show:
     series: tuple
@@ -44,8 +45,9 @@ class tag_episode:
     date:str
     resume:str
 
+load_dotenv()
 
-api_key = "bb42c9ed-bfdc-4ba7-8eef-6187a81023bd"  # Obtenue sur TheTVDB
+api_key = os.getenv('THETVDB_API_KEY')  # Obtenue sur TheTVDB
 tvdb = TVDB(api_key)
 
 
